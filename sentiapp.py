@@ -16,6 +16,8 @@ from nltk.stem import WordNetLemmatizer
 
 app = Flask(__name__)
 lm = WordNetLemmatizer()
+nltk.download('stopwords')
+nltk.download('wordnet')
 cv = CountVectorizer(ngram_range=(1,2))
 def text_transformation(df_col):
     corpus = []
@@ -42,10 +44,10 @@ def predict():
     result = stream.read()#.replace("=", ",")
     print(result)
     df = pd.read_csv(StringIO(result),names=['text'])
-    print(df.head())
+    #print(df.head())
     df.columns = ['text']
     df_corpus = text_transformation(df['text'])
-    print(df_corpus)
+    #print(df_corpus)
     cv = pickle.load(open("cv.pkl", 'rb'))
 
     data = cv.transform(df_corpus)
